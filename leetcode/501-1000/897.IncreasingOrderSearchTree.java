@@ -38,6 +38,7 @@ class Solution {
             }
             root.left = null;
             TreeNode rightNode = makeIncreasingBSTRight(root.right);
+            root.right = rightNode;
             if(rightNode!=null){   
                 while(rightNode.right!=null){
                     rightNode = rightNode.right;
@@ -51,21 +52,20 @@ class Solution {
     public TreeNode makeIncreasingBSTRight(TreeNode root){
         if(root!=null){
             TreeNode rightNode = makeIncreasingBSTRight(root.right);
+            TreeNode leftMost = root;
+            while(leftMost.left!=null){
+                leftMost=leftMost.left;
+            }
             TreeNode left = makeIncreasingBST(root.left);
             if(left!=null){
                 
                 left.right = root;
                 root.left = null;
-                
-                
-                while(left.left!=null){
-                    left = left.left;
-                }
             }
             if(rightNode!=null){
                 root.right = rightNode;
             }
-            return left!=null?left:root;
+            return leftMost;
         }
         return null;
     }
