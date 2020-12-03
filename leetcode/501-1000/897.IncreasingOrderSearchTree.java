@@ -15,57 +15,38 @@
  */
 class Solution {
     public TreeNode increasingBST(TreeNode root) {
-        TreeNode leftMost = root;
-        while(leftMost.left!=null){
-            leftMost=leftMost.left;
-        }
-        TreeNode t = makeIncreasingBST(root.left);
-        TreeNode t2 = makeIncreasingBSTRight(root.right);
-        if(t!=null){
-            t.right=root;
-            root.left=null;
-        }
-        if(t2!=null){
-            root.right = t2;
-        }
-        return leftMost;
-    }
-    public TreeNode makeIncreasingBST(TreeNode root){
         if(root!=null){
-            TreeNode leftNode = makeIncreasingBST(root.left);
-            if(leftNode!=null){
-                leftNode.right = root;
-            }
-            root.left = null;
-            TreeNode rightNode = makeIncreasingBSTRight(root.right);
-            root.right = rightNode;
-            if(rightNode!=null){   
-                while(rightNode.right!=null){
-                    rightNode = rightNode.right;
-                }
-            }
-            return rightNode!=null?rightNode:root;
-        }
-        return null;
-    }
-    
-    public TreeNode makeIncreasingBSTRight(TreeNode root){
-        if(root!=null){
-            TreeNode rightNode = makeIncreasingBSTRight(root.right);
             TreeNode leftMost = root;
             while(leftMost.left!=null){
                 leftMost=leftMost.left;
             }
-            TreeNode left = makeIncreasingBST(root.left);
+            TreeNode left = makeIncreasingLeftBST(root.left);
+            TreeNode right = increasingBST(root.right);
             if(left!=null){
-                
                 left.right = root;
                 root.left = null;
             }
-            if(rightNode!=null){
-                root.right = rightNode;
+            if(right!=null){
+                root.right = right;
             }
             return leftMost;
+        }
+        return null;
+    }
+    public TreeNode makeIncreasingLeftBST(TreeNode root){
+        if(root!=null){
+            TreeNode leftNode = makeIncreasingLeftBST(root.left);
+            if(leftNode!=null){
+                leftNode.right = root;
+            }
+            root.left = null;
+            TreeNode rightNode = increasingBST(root.right);
+            root.right = rightNode;
+            TreeNode rightMost = root;
+            while(rightMost.right!=null){
+                rightMost = rightMost.right;
+            }
+            return rightMost;
         }
         return null;
     }
