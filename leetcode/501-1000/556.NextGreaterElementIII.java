@@ -1,8 +1,10 @@
 class Solution {
     public int nextGreaterElement(int n) {
+        
         String m = String.valueOf(n);
         char[] c = m.toCharArray();
         int index = -1;
+        
         //find the first digit from right which is greater than the digit on its left
         for(int i=c.length-1; i>0; i--){
             if(c[i-1]<c[i]){
@@ -24,9 +26,13 @@ class Solution {
         char temp = c[index];
         c[index] = c[minIndex];
         c[minIndex] = temp;
-
-        //sort array after index
-        Arrays.sort(c, index+1, c.length);
+        
+        //reverse array after index
+        for(int i = index+1, j = c.length-1; i<j; i++,j--){
+            temp = c[i];
+            c[i] = c[j];
+            c[j] = temp;
+        }
         
         Long v = Long.parseLong(String.valueOf(c));
         if(v>Integer.MAX_VALUE){
