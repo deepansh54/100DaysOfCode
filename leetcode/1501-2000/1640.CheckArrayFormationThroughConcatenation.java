@@ -24,4 +24,4 @@ class Solution {
         return true;
     }
 }
-//https://leetcode.com/submissions/detail/437163819/
+//https://leetcode.com/problems/check-array-formation-through-concatenation/
