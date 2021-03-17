@@ -2,27 +2,18 @@ class Solution {
     double r = 0.0;
     double h = 0.0;
     double k = 0.0;
-    Map<Double, Boolean> m;
     public Solution(double radius, double x_center, double y_center) {
         this.r = radius;
         this.h = x_center;
         this.k = y_center;
-        this.m = new HashMap<>();
     }
     
     public double[] randPoint() {
-        double x = Math.random()*r;
-        x = h + (Math.random()>0.5 ? x : -x);
-        x = (Math.round(x*100000)/100000.00);
-        while(m.containsKey(x) || Math.abs(x - h) == r){
-            x = Math.random()*r;
-            x = h + (Math.random()>0.5 ? x : -x);    
-            x = (Math.round(x*100000)/100000.00);
-        }
-        m.put(x, true);
-        double y = k + Math.sqrt(r*r - (x-h)*(x-h));
-        if(x> h+r || x< h-r || y > k+r || y < k-r || ((x-h)*(x-h) + (y-k)*(y-k) - r*r > 0.000001)){
-            System.out.println("x="+x +" y="+y);
+        double x = h-r + Math.random() * 2 * r;
+        double y = k-r + Math.random() * 2 * r;
+        while(Math.pow(x-h,2) + Math.pow(y-k,2) > Math.pow(r,2)){
+            x = h-r + Math.random() * 2 * r;
+            y = k-r + Math.random() * 2 * r;
         }
         return new double[]{x,y};
     }
