@@ -20,51 +20,23 @@ class Solution {
         for(int i=1;i<m;i++){
             for(int j=1; j<n;j++){
                 if(pacific[i-1][j] && matrix[i-1][j]<=matrix[i][j]){
-                    pacific[i][j] =  true;
+                    propagate(pacific, matrix, i, j, m, n);
                 }
                 else if(pacific[i][j-1] && matrix[i][j-1]<=matrix[i][j]){
-                    pacific[i][j] =  true;
+                    propagate(pacific, matrix, i, j, m, n);
                 }
             }
-        }
-        
-        for(int i=m-1;i>=1;i--){
-            for(int j=n-1; j>=1;j--){
-                if(pacific[i][j]){
-                    if(!pacific[i-1][j] && matrix[i-1][j]>=matrix[i][j]){
-                        pacific[i-1][j] = true;
-                    }
-                    
-                    if(!pacific[i][j-1] && matrix[i][j-1]>=matrix[i][j]){
-                        pacific[i][j-1] = true;
-                    }
-                }
-            }
-        }
-        
+        }        
         
         for(int i=m-2;i>=0;i--){
             for(int j=n-2; j>=0;j--){
                 if(atlantic[i+1][j] && matrix[i+1][j]<=matrix[i][j]){
-                    atlantic[i][j] =  true;
+                    propagate(atlantic, matrix, i, j, m, n);
                 }
                 else if(atlantic[i][j+1] && matrix[i][j+1]<=matrix[i][j]){
-                    atlantic[i][j] =  true;
+                    propagate(atlantic, matrix, i, j, m, n);
                 }
-            }
-        }
-        
-        for(int i=0;i<m-1;i++){
-            for(int j=0; j<n-1;j++){
-                if(atlantic[i][j]){
-                    if(!atlantic[i+1][j] && matrix[i+1][j]>=matrix[i][j]){
-                        atlantic[i+1][j] = true;
-                    }
-                    
-                    if(!atlantic[i][j+1] && matrix[i][j+1]>=matrix[i][j]){
-                        atlantic[i][j+1] = true;
-                    }
-                }
+                
             }
         }
         
@@ -77,23 +49,41 @@ class Solution {
                 }
             }
         }
-        System.out.println("~~~~~matrix~~~~~~~~~~~~~~~~~~");
+//         System.out.println("~~~~~matrix~~~~~~~~~~~~~~~~~~");
 
-        for(int i=0;i<m;i++){
-            System.out.println(Arrays.toString(matrix[i]));
-        }
-                System.out.println("~~~~~pacific~~~~~~~~~~~~~~~~~~");
+//         for(int i=0;i<m;i++){
+//             System.out.println(Arrays.toString(matrix[i]));
+//         }
+//                 System.out.println("~~~~~pacific~~~~~~~~~~~~~~~~~~");
 
-        for(int i=0;i<m;i++){
-            System.out.println(Arrays.toString(pacific[i]));
-        }
-        System.out.println("~~~~~atlantic~~~~~~~~~~~~~~~~~~");
+//         for(int i=0;i<m;i++){
+//             System.out.println(Arrays.toString(pacific[i]));
+//         }
+//         System.out.println("~~~~~atlantic~~~~~~~~~~~~~~~~~~");
 
-        for(int i=0;i<m;i++){
-            System.out.println(Arrays.toString(atlantic[i]));
-        }
+//         for(int i=0;i<m;i++){
+//             System.out.println(Arrays.toString(atlantic[i]));
+//         }
         
         return result;
+    }
+    
+    public void propagate(boolean[][] z , int[][] matrix, int i , int j, int m, int n){
+        if(!z[i][j]){
+            z[i][j] = true;
+            if(i-1>=0 && matrix[i-1][j]>=matrix[i][j]){
+                propagate(z, matrix, i-1, j, m, n);
+            }
+            if(j-1>=0 && matrix[i][j-1]>=matrix[i][j]){
+                propagate(z, matrix, i, j-1, m, n);
+            }
+            if(i+1 < m && matrix[i+1][j]>=matrix[i][j]){
+                propagate(z, matrix, i+1, j, m, n);
+            }
+            if(j+1 < n && matrix[i][j+1]>=matrix[i][j]){
+                propagate(z, matrix, i, j+1, m, n);
+            } 
+        }
     }
 }
 //https://leetcode.com/problems/pacific-atlantic-water-flow/
