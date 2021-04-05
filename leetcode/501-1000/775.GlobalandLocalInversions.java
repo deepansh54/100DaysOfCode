@@ -1,9 +1,7 @@
 class Solution {
     public boolean isIdealPermutation(int[] A) {
-        int max = -99;
-        for(int i=0;i<A.length-2;i++){
-            max = Math.max(max,A[i]);
-            if(max > A[i+2]){
+        for(int i=0;i<A.length;i++){
+            if(Math.abs(A[i]-i) > 1){
                 return false;
             }
         }
